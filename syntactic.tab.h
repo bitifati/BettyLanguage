@@ -41,9 +41,27 @@
    enum yytokentype {
      semicolon = 258,
      comma = 259,
-     assignment = 260,
-     idf = 261,
-     cst = 262
+     equal_op = 260,
+     small_equal_op = 261,
+     great_equal_op = 262,
+     great_op = 263,
+     small_op = 264,
+     different_op = 265,
+     assignment_op = 266,
+     plus_op = 267,
+     minus_op = 268,
+     multiplication_op = 269,
+     devision_op = 270,
+     left_paranthesis = 271,
+     right_paranthesis = 272,
+     left_curly_bracket = 273,
+     right_curly_bracket = 274,
+     if_keyword = 275,
+     for_keyword = 276,
+     do_keyword = 277,
+     while_keyword = 278,
+     idf = 279,
+     cst = 280
    };
 #endif
 
