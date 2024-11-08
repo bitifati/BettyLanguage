@@ -1,3 +1,12 @@
+%{
+#include <stdio.h>
+extern int line_number;
+void yyerror(char* message)
+{
+printf("syntax error, line %d : %s",line_number, message);
+}
+int yylex(void);
+%}
 %token program_keyword begin_keyword end_keyword 
 %token import_keyword library_keyword 
 %token int_keyword float_keyword char_keyword 
@@ -10,8 +19,7 @@
 %token for_keyword do_keyword while_keyword 
 %token idf cst
 %%
-s: list_import program | program {printf("syntax is correct"); YYACCEPT;}
-; 
+s: list_import program | program {printf("syntax is correct"); YYACCEPT;}; 
  
 list_import: single_import | single_import list_import
 ;
@@ -23,25 +31,19 @@ libraries: library_keyword | library_keyword comma libraries
 program: program_keyword begin_keyword body end_keyword
 ;
 
-body: list_var
+body: var_declaration 
 ;
+var_declaration: list_var | list_var var_declaration
 
 list_var: type_var variables semicolon
 ;
 type_var: int_keyword | float_keyword | char_keyword
 ;
-
 variables: idf | idf comma variables
 ;
+
 %%
 main()
 {
 yyparse();
-}
-yywrap()
-{}
-
-yyerror(char* message)
-{
-printf("syntax error : %s", message);
 }

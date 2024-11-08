@@ -1,4 +1,5 @@
 BettyCode
 Begin
-int varTest;
+int varTest , cake, cookie;
+float boat;
 End
