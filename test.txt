@@ -1,0 +1,4 @@
+BettyCode
+Begin
+int varTest;
+End

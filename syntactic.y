@@ -1,22 +1,47 @@
-%{
-int line_number=1;
-int column_number=0;
-%}
+%token program_keyword begin_keyword end_keyword 
+%token import_keyword library_keyword 
+%token int_keyword float_keyword char_keyword 
 %token semicolon comma 
-equal_op small_equal_op great_equal_op great_op small_op different_op 
-assignment_op plus_op minus_op multiplication_op devision_op 
-left_paranthesis right_paranthesis 
-left_curly_bracket right_curly_bracket 
-if_keyword for_keyword do_keyword while_keyword 
-idf cst
+%token equal_op small_equal_op great_equal_op great_op small_op different_op 
+%token assignment_op plus_op minus_op multiplication_op devision_op 
+%token left_paranthesis right_paranthesis 
+%token left_curly_bracket right_curly_bracket 
+%token if_keyword 
+%token for_keyword do_keyword while_keyword 
+%token idf cst
 %%
-s: idf assignment_op cst semicolon {printf("syntax is correct"); yyaccept;}
+s: list_import program | program {printf("syntax is correct"); YYACCEPT;}
+; 
+ 
+list_import: single_import | single_import list_import
+;
+single_import: import_keyword libraries semicolon
+;
+libraries: library_keyword | library_keyword comma libraries
+;
+
+program: program_keyword begin_keyword body end_keyword
+;
+
+body: list_var
+;
+
+list_var: type_var variables semicolon
+;
+type_var: int_keyword | float_keyword | char_keyword
+;
+
+variables: idf | idf comma variables
+;
 %%
 main()
 {
 yyparse();
 }
-yywrap(){}
-int yyerror(char* message)
+yywrap()
+{}
+
+yyerror(char* message)
 {
-printf("syntactic error, line %d, column %d \n", line_number, column_number);
+printf("syntax error : %s", message);
+}
