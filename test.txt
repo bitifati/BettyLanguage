@@ -1,6 +1,7 @@
 Programme isil
 PDec
 integer x, y;
+#comment
 InDebut
-croissant = cake;
+croissat = cake;
 InFin
