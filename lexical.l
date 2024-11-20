@@ -8,14 +8,16 @@ digit [0-9]
 IDF {letter}({letter}|{digit})*
 CST {digit}+
 %%
-"BettyCode" { column_number += yyleng; return program_keyword;}
-"Begin" { column_number += yyleng; return begin_keyword;}
-"End" { column_number += yyleng; return end_keyword;}
+"Programme" { column_number += yyleng; return program_keyword;}
+"InDebut" { column_number += yyleng; return begin_keyword;}
+"InFin" { column_number += yyleng; return end_keyword;}
+"PDec" { column_number += yyleng; return declaration_keyword;}
 
 "import" { column_number += yyleng; return import_keyword; }
-"Betty_Input_Output" { column_number += 18; return library_keyword;}
+"math" { column_number += yyleng; return math_library;}
+"lang" { column_number += yyleng; return lang_library;}
 
-"int" { column_number += yyleng; return int_keyword;}
+"integer" { column_number += yyleng; return int_keyword;}
 "float" { column_number += yyleng; return float_keyword;}
 "char" { column_number += yyleng; return char_keyword;}
 
@@ -29,8 +31,8 @@ CST {digit}+
 "<" { column_number += yyleng; return small_op;}
 "!=" { column_number += yyleng; return different_op;}
 
-"AND" { column_number += yyleng; return and_keyword;}
-"OR" { column_number += yyleng; return or_keyword;}
+"&&" { column_number += yyleng; return and_keyword;}
+"||" { column_number += yyleng; return or_keyword;}
 
 "=" { column_number += yyleng; return assignment_op;}
 "+" { column_number += yyleng; return plus_op; }

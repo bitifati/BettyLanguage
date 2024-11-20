@@ -7,8 +7,8 @@ printf("syntax error, line %d : %s",line_number, message);
 }
 int yylex(void);
 %}
-%token program_keyword begin_keyword end_keyword 
-%token import_keyword library_keyword 
+%token program_keyword begin_keyword end_keyword declaration_keyword
+%token import_keyword math_library lang_library
 %token int_keyword float_keyword char_keyword 
 %token semicolon comma 
 %token equal_op small_equal_op great_equal_op great_op small_op different_op 
@@ -21,64 +21,87 @@ int yylex(void);
 %token idf cst
 %start s
 %%
-s: list_import program | program {printf("syntax is correct"); YYACCEPT;}
+s: import_part program_keyword idf declaration_keyword declaration_part begin_keyword body end_keyword {printf("syntax is correct"); YYACCEPT;}
 ;
 
 
-list_import:  | list_import single_import
+import_part: single_import import_part 
+           | /* epsilon */
 ;
-single_import: import_keyword libraries semicolon
+single_import: import_keyword library libraries semicolon
 ;
-libraries: library_keyword | comma library_keyword libraries
+library: math_library 
+       | lang_library
 ;
-
-
-program: program_keyword begin_keyword body end_keyword
-;
-
-
-body: var_declaration | assignment
+libraries: comma library libraries
+		 | /* epsilon */
 ;
 
 
-var_declaration:  | var_declaration list_var
+declaration_part: type_keyword variable variables semicolon
 ;
-list_var: type_var variables semicolon
+type_keyword: int_keyword 
+			| float_keyword 
+			| char_keyword
 ;
-type_var: int_keyword | float_keyword | char_keyword
+variable: idf
 ;
-variables: idf | variables comma idf
+variables: comma idf variables 
+         | /* epsilon */
 ;
 
 
-assignment: idf assignment_op expression semicolon | idf assignment_op expression semicolon body
+body: assignment body
+	| /* epsilon */ 
 ;
-expression: arithmetic_exp | logic_exp
+
+assignment: idf assignment_op expression semicolon	
 ;
-exp: idf | cst;
+
+
+expression: arithmetic_exp 
+          | logic_exp
+;
+exp: idf 
+   | cst;
 
 
 arithmetic_exp: arithmetic_exp1 arithmetic_exp_prime
 ;
-arithmetic_exp_prime: plus_op arithmetic_exp1 arithmetic_exp_prime | minus_op arithmetic_exp1 arithmetic_exp_prime | /* epsilon */
+arithmetic_exp_prime: plus_op arithmetic_exp1 arithmetic_exp_prime 
+                    | minus_op arithmetic_exp1 arithmetic_exp_prime 
+					| /* epsilon */
 ;
+
+
 arithmetic_exp1: arithmetic_exp2 arithmetic_exp1_prime
 ;
-arithmetic_exp1_prime: multiplication_op arithmetic_exp2 arithmetic_exp1_prime | devision_op arithmetic_exp2 arithmetic_exp1_prime | /* epsilon */
+arithmetic_exp1_prime: multiplication_op arithmetic_exp2 arithmetic_exp1_prime 
+                     | devision_op arithmetic_exp2 arithmetic_exp1_prime 
+					 | /* epsilon */
 ;
-arithmetic_exp2: exp | left_paranthesis arithmetic_exp right_paranthesis
+arithmetic_exp2: exp 
+               | left_paranthesis arithmetic_exp right_paranthesis
 ;
 
 
-logic_exp: logic_exp or_keyword logic_exp1 | logic_exp and_keyword logic_exp1 | logic_exp1
+logic_exp: logic_exp or_keyword logic_exp1 
+         | logic_exp and_keyword logic_exp1 
+		 | logic_exp1
 ;
 logic_exp1: logic_exp2 logic_exp1_prime
 ;
-logic_exp1_prime: equal_op logic_exp2 logic_exp1_prime | different_op logic_exp2 logic_exp1_prime | great_equal_op logic_exp2 logic_exp1_prime | great_op logic_exp2 logic_exp1_prime | small_equal_op logic_exp2 logic_exp1_prime | small_op logic_exp2 logic_exp1_prime | /* epsilon */
+logic_exp1_prime: equal_op logic_exp2 logic_exp1_prime 
+				| different_op logic_exp2 logic_exp1_prime 
+				| great_equal_op logic_exp2 logic_exp1_prime 
+				| great_op logic_exp2 logic_exp1_prime 
+				| small_equal_op logic_exp2 logic_exp1_prime 
+				| small_op logic_exp2 logic_exp1_prime 
+				| /* epsilon */
 ;
-logic_exp2: exp | left_paranthesis logic_exp right_paranthesis
+logic_exp2: exp 
+          | left_paranthesis logic_exp right_paranthesis
 ;
-
 
 %%
 main()

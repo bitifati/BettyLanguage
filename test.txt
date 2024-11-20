@@ -1,5 +1,6 @@
-BettyCode
-Begin
-gateau = (x+y - 45);
-croissant = (5 < 4); 
-End
+Programme isil
+PDec
+integer x, y;
+InDebut
+croissant = cake;
+InFin
