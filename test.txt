@@ -1,7 +1,11 @@
 Programme isil
 PDec
+/* tada */
 integer x, y;
-#comment
 InDebut
 croissat = cake;
+/* commentaire 
+sur multi
+lignrs*/
 InFin
+/*another tada*/

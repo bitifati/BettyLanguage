@@ -8,7 +8,6 @@ letter [A-Za-z]
 digit [0-9]
 IDF {letter}({letter}|{digit})* 
 CST {digit}+
-comment \/\*([^*]|\*+[^\/])*\/\*
 %%
 
 "Programme" { column_number += yyleng; return program_keyword;}
@@ -57,10 +56,10 @@ comment \/\*([^*]|\*+[^\/])*\/\*
 
 {CST} { column_number += yyleng; return cst;}
 {IDF} { column_number += yyleng; if(strlen(yytext) > MAX_IDF_LENGTH) {printf("Erreur: IDF \"%s\" depasse 10 caracteres.\n", yytext);} return idf;}
-{comment} { int i=0; while (yytext[i]!='\0' ){ if ( yytext[i]=='\n'){line_number++;}  i++;} }
 
 "//".* { int i=0; while (yytext[i]!='\0' ){ if ( yytext[i]=='\n'){line_number++;}  i++;} }
 "#".* { int i=0; while (yytext[i]!='\0' ){ if ( yytext[i]=='\n'){line_number++;}  i++;} }
+\/\*([^*/])*\*\/ { int i=0; while (yytext[i]!='\0' ){ if ( yytext[i]=='\n'){line_number++;}  i++;} }
 [ \t] {column_number += yyleng;}
 \n { line_number++;  column_number = 0;}
 . {printf("lexical error, line %d , column %d\n", line_number, column_number); }
