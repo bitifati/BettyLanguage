@@ -16,8 +16,8 @@ CST {digit}+
 "PDec" { column_number += yyleng; return declaration_keyword;}
 
 "import" { column_number += yyleng; return import_keyword; }
-"math" { column_number += yyleng; return math_library;}
-"lang" { column_number += yyleng; return lang_library;}
+"ISIL.io" { column_number += yyleng; return io_library;}
+"ISIL.lang" { column_number += yyleng; return lang_library;}
 
 "integer" { column_number += yyleng; return int_keyword;}
 "float" { column_number += yyleng; return float_keyword;}
@@ -35,6 +35,7 @@ CST {digit}+
 
 "&&" { column_number += yyleng; return and_keyword;}
 "||" { column_number += yyleng; return or_keyword;}
+"!" { column_number += yyleng; return not_keyword;}
 
 "=" { column_number += yyleng; return assignment_op;}
 "+" { column_number += yyleng; return plus_op; }
@@ -64,4 +65,4 @@ CST {digit}+
 \n { line_number++;  column_number = 0;}
 . {printf("lexical error, line %d , column %d\n", line_number, column_number); }
 %%  
-int yywrap() {return 1;}
+

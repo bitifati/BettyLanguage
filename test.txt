@@ -3,9 +3,9 @@ PDec
 /* tada */
 integer x, y;
 InDebut
-croissat = cake;
+croissat = 5-y == z;
 /* commentaire 
 sur multi
-lignrs*/
+lignes*/
 InFin
 /*another tada*/
