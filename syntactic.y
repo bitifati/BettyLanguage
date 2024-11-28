@@ -20,7 +20,7 @@ int yylex(void);
 %token left_bracket right_bracket
 %token if_keyword else_keyword endif_keyword
 %token for_keyword do_keyword endfor_keyword
-%token idf cst_int cst_float 
+%token idf cst
 %start s
 %%
 s: import_part program_keyword idf declaration_keyword declaration_part begin_keyword body end_keyword {printf("syntax is correct"); YYACCEPT;}
@@ -77,32 +77,26 @@ exp: idf
    | cst
 ;
 
+/*
 cst: cst_float
    | cst_int
 ;
+*/
 
-arithmetic_exp: arithmetic_exp1
+arithmetic_exp: arithmetic_exp plus_op arithmetic_exp1
+              | arithmetic_exp minus_op arithmetic_exp1
+              | arithmetic_exp1
 ;
 
-arithmetic_exp1: arithmetic_exp2 arithmetic_exp1_prime
+arithmetic_exp1: arithmetic_exp1 multiplication_op arithmetic_exp2
+               | arithmetic_exp1 devision_op arithmetic_exp2
+               | arithmetic_exp2
 ;
 
-arithmetic_exp1_prime: plus_op arithmetic_exp2 arithmetic_exp1_prime 
-                     | minus_op arithmetic_exp2 arithmetic_exp1_prime 
-                     | /* epsilon */
-;
-
-arithmetic_exp2: arithmetic_exp3 arithmetic_exp2_prime
-;
-
-arithmetic_exp2_prime: multiplication_op arithmetic_exp3 arithmetic_exp2_prime 
-                     | devision_op arithmetic_exp3 arithmetic_exp2_prime 
-                     | /* epsilon */
-;
-
-arithmetic_exp3: exp 
+arithmetic_exp2: exp
                | left_paranthesis arithmetic_exp right_paranthesis
 ;
+
 
 logic_exp: logic_exp1 logic_exp_prime
 ;
@@ -137,8 +131,13 @@ if_condition_prime: endif_keyword
 ;
 
 
-for_loop: for_keyword left_paranthesis idf assignment_op arithmetic_exp semicolon logic_exp semicolon idf assignment_op arithmetic_exp right_paranthesis do_keyword body endfor_keyword
+for_loop: for_keyword left_paranthesis for_initialization semicolon logic_exp semicolon for_update right_paranthesis do_keyword body endfor_keyword
 ;
+for_initialization: idf assignment_op arithmetic_exp
+;
+for_update: idf assignment_op arithmetic_exp
+;
+
 
 %%
 main()

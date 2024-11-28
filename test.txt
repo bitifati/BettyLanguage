@@ -3,12 +3,15 @@ Programme isil
 PDec
 /* tada */
 integer x| y;
-final float x = +55.05;
+final float x = 55;
 InDebut
 
-for ( i = 5; i <= 20; i = i+5-y ) do
-
+for (i = 5+4 ; i <= 10; i = i + 1 -y) do
+if (5-4 <= r+t) do
+croissant = cake;
+endif
 endfor
+
 
 InFin
 /*another tada*/

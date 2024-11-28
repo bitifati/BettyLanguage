@@ -80,8 +80,7 @@
      do_keyword = 296,
      endfor_keyword = 297,
      idf = 298,
-     cst_int = 299,
-     cst_float = 300
+     cst = 299
    };
 #endif
 

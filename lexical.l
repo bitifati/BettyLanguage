@@ -7,8 +7,7 @@
 letter [A-Za-z]
 digit [0-9]
 IDF {letter}({letter}|{digit})* 
-CST_INT ([+-])?{digit}+
-CST_FLOAT ([+-])?{digit}+("."{digit}+)?
+CST {digit}+
 %%
 
 "Programme" { column_number += yyleng; return program_keyword;}
@@ -66,8 +65,7 @@ CST_FLOAT ([+-])?{digit}+("."{digit}+)?
 "endfor" { column_number += yyleng; return endfor_keyword;}
 
 
-{CST_INT} { column_number += yyleng; return cst_int;}
-{CST_FLOAT} { column_number += yyleng; return cst_float;}
+{CST} { column_number += yyleng; return cst;}
 {IDF} { column_number += yyleng; if(strlen(yytext) > MAX_IDF_LENGTH) {printf("Erreur: IDF \"%s\" depasse 10 caracteres.\n", yytext);} return idf;}
 
 "//".* { int i=0; while (yytext[i]!='\0' ){ if ( yytext[i]=='\n'){line_number++;}  i++;} }
