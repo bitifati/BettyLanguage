@@ -9,16 +9,18 @@ int yylex(void);
 %}
 %token program_keyword begin_keyword end_keyword declaration_keyword
 %token import_keyword io_library lang_library
+%token final_keyword
 %token int_keyword float_keyword char_keyword 
-%token semicolon comma 
+%token semicolon comma pipe
 %token equal_op small_equal_op great_equal_op great_op small_op different_op 
 %token and_keyword or_keyword not_keyword
 %token assignment_op plus_op minus_op multiplication_op devision_op 
 %token left_paranthesis right_paranthesis 
 %token left_curly_bracket right_curly_bracket 
-%token if_keyword 
-%token for_keyword do_keyword while_keyword 
-%token idf cst
+%token left_bracket right_bracket
+%token if_keyword else_keyword endif_keyword
+%token for_keyword do_keyword endfor_keyword
+%token idf cst_int cst_float 
 %start s
 %%
 s: import_part program_keyword idf declaration_keyword declaration_part begin_keyword body end_keyword {printf("syntax is correct"); YYACCEPT;}
@@ -33,25 +35,33 @@ single_import: import_keyword library libraries semicolon
 library: io_library 
        | lang_library
 ;
-libraries: comma library libraries
+libraries: pipe library libraries
 		 | /* epsilon */
 ;
 
+declaration_part: declaration_variable declaration_part
+				| declaration_constant declaration_part
+				| /* epsilon */
+;
 
-declaration_part: type_keyword variable variables semicolon
+declaration_constant: final_keyword type_keyword idf assignment_op cst semicolon
+
+declaration_variable: type_keyword variable variables semicolon
 ;
 type_keyword: int_keyword 
 			| float_keyword 
 			| char_keyword
 ;
-variable: idf
+variable: idf 
 ;
-variables: comma idf variables 
+variables: pipe idf variables 
          | /* epsilon */
 ;
 
 
 body: assignment body
+	| if_condition body
+	| for_loop body
 	| /* epsilon */ 
 ;
 
@@ -65,6 +75,10 @@ expression: arithmetic_exp
 
 exp: idf 
    | cst
+;
+
+cst: cst_float
+   | cst_int
 ;
 
 arithmetic_exp: arithmetic_exp1
@@ -115,6 +129,16 @@ comparison_op: equal_op
 ;
 
 
+if_condition: if_keyword left_paranthesis logic_exp right_paranthesis do_keyword body if_condition_prime
+;
+
+if_condition_prime: endif_keyword
+				  | else_keyword body endif_keyword
+;
+
+
+for_loop: for_keyword left_paranthesis idf assignment_op arithmetic_exp semicolon logic_exp semicolon idf assignment_op arithmetic_exp right_paranthesis do_keyword body endfor_keyword
+;
 
 %%
 main()

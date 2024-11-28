@@ -1,11 +1,14 @@
+import ISIL.io | ISIL.lang;
 Programme isil
 PDec
 /* tada */
-integer x, y;
+integer x| y;
+final float x = +55.05;
 InDebut
-croissat = 5-y == z;
-/* commentaire 
-sur multi
-lignes*/
+
+for ( i = 5; i <= 20; i = i+5-y ) do
+
+endfor
+
 InFin
 /*another tada*/
