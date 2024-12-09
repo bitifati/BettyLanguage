@@ -42,7 +42,7 @@
      idf = 258,
      csti = 259,
      cstf = 260,
-     str = 261,
+     string = 261,
      program_keyword = 262,
      begin_keyword = 263,
      end_keyword = 264,

@@ -2,6 +2,7 @@
 	#include "syntactic.tab.h"
     int line_number = 1;
 	int column_number = 0;
+	extern YYSTYPE yylval;
 	#define MAX_IDF_LENGTH 10
 %}
 letter [A-Za-z]
@@ -9,7 +10,7 @@ digit [0-9]
 IDF {letter}({letter}|{digit})* 
 cstI [-+]?{digit}+
 cstF [-+]?{digit}+("."{digit}+)?
-string \"[^"]*\"
+STRING \"[^"]*\" 
 
 %%
 
@@ -66,14 +67,6 @@ string \"[^"]*\"
 "endfor" { column_number += yyleng; return endfor_keyword;}
 
 
-{IDF} { 
-	column_number += yyleng; 
-	if(strlen(yytext) > MAX_IDF_LENGTH) {
-		printf("Erreur: IDF \"%s\" depasse 10 caracteres.\n", yytext);
-	} 
-	return idf;
-}
-
 {cstI} {column_number += yyleng;
         yylval.Integer=atoi(yytext); 
 		return csti;
@@ -84,9 +77,21 @@ string \"[^"]*\"
 		return cstf;
 }
 
-{string}  {
-	column_number += yyleng; 
-	return str;
+{STRING} { 
+	yylval.str = strdup(yytext + 1); 
+	yylval.str[strlen(yylval.str) - 1] = '\0'; 
+	return string; 
+}
+
+
+{IDF} { 
+    column_number += yyleng;
+    if (strlen(yytext) > MAX_IDF_LENGTH) {
+        printf("Erreur: IDF \"%s\" dépasse 10 caractères à la ligne %d, colonne %d.\n", yytext, line_number, column_number);
+        return 0; // Return no token, effectively discarding the input
+    } 
+    yylval.str = strdup(yytext); // If valid, store the identifier
+    return idf;
 }
 
 

@@ -6,11 +6,14 @@ PDec
 integer x| y;
 final float x <-- 55.482;
 integer baguette[5];
+char phrase;
 InDebut
 
 for (i <-- (5+ +4) ; i <= 10; i <-- i + 1 -y) do
 if (5/4 <= r+t) do
 croissant <-- 5 + 5;
+mvar <-- "Hello world";
+
 endif
 endfor
 

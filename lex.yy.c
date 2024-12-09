@@ -287,18 +287,18 @@ static void yy_fatal_error YY_PROTO(( yyconst char msg[] ));
 static yyconst short int yy_accept[121] =
     {   0,
         0,    0,   49,   47,   45,   46,   22,   47,   43,   47,
-       28,   29,   26,   24,   25,   27,   39,   12,   18,   47,
-       17,   38,   38,   38,   30,   31,   38,   38,   38,   38,
-       38,   13,   19,    0,   41,   43,   20,   39,    0,   42,
-        0,    0,   15,   14,   16,   38,   38,   38,   38,   38,
-       38,   36,   38,   38,   38,   38,   38,   32,   38,   38,
-       21,    0,    0,   42,   40,   23,   38,   38,   38,   38,
-       38,   38,   38,   38,   38,   38,   35,   38,   38,   44,
-       38,   38,   38,    4,   38,   11,   33,   38,   38,   38,
-       38,   38,   38,    0,   38,    3,   38,   38,   34,    8,
+       28,   29,   26,   24,   25,   27,   38,   12,   18,   47,
+       17,   41,   41,   41,   30,   31,   41,   41,   41,   41,
+       41,   13,   19,    0,   40,   43,   20,   38,    0,   42,
+        0,    0,   15,   14,   16,   41,   41,   41,   41,   41,
+       41,   36,   41,   41,   41,   41,   41,   32,   41,   41,
+       21,    0,    0,   42,   39,   23,   41,   41,   41,   41,
+       41,   41,   41,   41,   41,   41,   35,   41,   41,   44,
+       41,   41,   41,    4,   41,   11,   33,   41,   41,   41,
+       41,   41,   41,    0,   41,    3,   41,   41,   34,    8,
 
-       10,   38,   38,    0,    0,   38,   38,   37,    5,   38,
-        6,    0,    2,   38,    9,    0,   38,    7,    1,    0
+       10,   41,   41,    0,    0,   41,   41,   37,    5,   41,
+        6,    0,    2,   41,    9,    0,   41,    7,    1,    0
     } ;
 
 static yyconst int yy_ec[256] =
@@ -447,8 +447,9 @@ char *yytext;
 	#include "syntactic.tab.h"
     int line_number = 1;
 	int column_number = 0;
+	extern YYSTYPE yylval;
 	#define MAX_IDF_LENGTH 10
-#line 452 "lex.yy.c"
+#line 453 "lex.yy.c"
 
 /* Macros after this point can all be overridden by user definitions in
  * section 1.
@@ -599,10 +600,10 @@ YY_DECL
 	register char *yy_cp, *yy_bp;
 	register int yy_act;
 
-#line 14 "lexical.l"
+#line 15 "lexical.l"
 
 
-#line 606 "lex.yy.c"
+#line 607 "lex.yy.c"
 
 	if ( yy_init )
 		{
@@ -687,260 +688,263 @@ do_action:	/* This label is used only to access EOF actions. */
 
 case 1:
 YY_RULE_SETUP
-#line 16 "lexical.l"
+#line 17 "lexical.l"
 { column_number += yyleng; return program_keyword;}
 	YY_BREAK
 case 2:
 YY_RULE_SETUP
-#line 17 "lexical.l"
+#line 18 "lexical.l"
 { column_number += yyleng; return begin_keyword;}
 	YY_BREAK
 case 3:
 YY_RULE_SETUP
-#line 18 "lexical.l"
+#line 19 "lexical.l"
 { column_number += yyleng; return end_keyword;}
 	YY_BREAK
 case 4:
 YY_RULE_SETUP
-#line 19 "lexical.l"
+#line 20 "lexical.l"
 { column_number += yyleng; return declaration_keyword;}
 	YY_BREAK
 case 5:
 YY_RULE_SETUP
-#line 21 "lexical.l"
+#line 22 "lexical.l"
 { column_number += yyleng; return import_keyword; }
 	YY_BREAK
 case 6:
 YY_RULE_SETUP
-#line 22 "lexical.l"
+#line 23 "lexical.l"
 { column_number += yyleng; return io_library;}
 	YY_BREAK
 case 7:
 YY_RULE_SETUP
-#line 23 "lexical.l"
+#line 24 "lexical.l"
 { column_number += yyleng; return lang_library;}
 	YY_BREAK
 case 8:
 YY_RULE_SETUP
-#line 25 "lexical.l"
+#line 26 "lexical.l"
 { column_number += yyleng; return final_keyword;}
 	YY_BREAK
 case 9:
 YY_RULE_SETUP
-#line 27 "lexical.l"
+#line 28 "lexical.l"
 { column_number += yyleng; return int_keyword;}
 	YY_BREAK
 case 10:
 YY_RULE_SETUP
-#line 28 "lexical.l"
+#line 29 "lexical.l"
 { column_number += yyleng; return float_keyword;}
 	YY_BREAK
 case 11:
 YY_RULE_SETUP
-#line 29 "lexical.l"
+#line 30 "lexical.l"
 { column_number += yyleng; return char_keyword;}
 	YY_BREAK
 case 12:
 YY_RULE_SETUP
-#line 31 "lexical.l"
+#line 32 "lexical.l"
 { column_number += yyleng; return semicolon;}
 	YY_BREAK
 case 13:
 YY_RULE_SETUP
-#line 32 "lexical.l"
+#line 33 "lexical.l"
 { column_number += yyleng; return pipe;}
 	YY_BREAK
 case 14:
 YY_RULE_SETUP
-#line 34 "lexical.l"
+#line 35 "lexical.l"
 { column_number += yyleng; return equal_op; }
 	YY_BREAK
 case 15:
 YY_RULE_SETUP
-#line 35 "lexical.l"
+#line 36 "lexical.l"
 { column_number += yyleng; return small_equal_op;}
 	YY_BREAK
 case 16:
 YY_RULE_SETUP
-#line 36 "lexical.l"
+#line 37 "lexical.l"
 { column_number += yyleng; return great_equal_op;}
 	YY_BREAK
 case 17:
 YY_RULE_SETUP
-#line 37 "lexical.l"
+#line 38 "lexical.l"
 { column_number += yyleng; return great_op;}
 	YY_BREAK
 case 18:
 YY_RULE_SETUP
-#line 38 "lexical.l"
+#line 39 "lexical.l"
 { column_number += yyleng; return small_op;}
 	YY_BREAK
 case 19:
 YY_RULE_SETUP
-#line 39 "lexical.l"
+#line 40 "lexical.l"
 { column_number += yyleng; return different_op;}
 	YY_BREAK
 case 20:
 YY_RULE_SETUP
-#line 41 "lexical.l"
+#line 42 "lexical.l"
 { column_number += yyleng; return and_keyword;}
 	YY_BREAK
 case 21:
 YY_RULE_SETUP
-#line 42 "lexical.l"
+#line 43 "lexical.l"
 { column_number += yyleng; return or_keyword;}
 	YY_BREAK
 case 22:
 YY_RULE_SETUP
-#line 43 "lexical.l"
+#line 44 "lexical.l"
 { column_number += yyleng; return not_keyword;}
 	YY_BREAK
 case 23:
 YY_RULE_SETUP
-#line 45 "lexical.l"
+#line 46 "lexical.l"
 { column_number += yyleng; return assignment_op;}
 	YY_BREAK
 case 24:
 YY_RULE_SETUP
-#line 46 "lexical.l"
+#line 47 "lexical.l"
 { column_number += yyleng; return plus_op; }
 	YY_BREAK
 case 25:
 YY_RULE_SETUP
-#line 47 "lexical.l"
+#line 48 "lexical.l"
 { column_number += yyleng; return minus_op;}
 	YY_BREAK
 case 26:
 YY_RULE_SETUP
-#line 48 "lexical.l"
+#line 49 "lexical.l"
 { column_number += yyleng; return multiplication_op;}
 	YY_BREAK
 case 27:
 YY_RULE_SETUP
-#line 49 "lexical.l"
+#line 50 "lexical.l"
 { column_number += yyleng; return devision_op;}
 	YY_BREAK
 case 28:
 YY_RULE_SETUP
-#line 51 "lexical.l"
+#line 52 "lexical.l"
 { column_number += yyleng; return left_paranthesis; }
 	YY_BREAK
 case 29:
 YY_RULE_SETUP
-#line 52 "lexical.l"
+#line 53 "lexical.l"
 { column_number += yyleng; return right_paranthesis;}
 	YY_BREAK
 case 30:
 YY_RULE_SETUP
-#line 55 "lexical.l"
+#line 56 "lexical.l"
 { column_number += yyleng; return left_bracket;}
 	YY_BREAK
 case 31:
 YY_RULE_SETUP
-#line 56 "lexical.l"
+#line 57 "lexical.l"
 { column_number += yyleng; return right_bracket;}
 	YY_BREAK
 case 32:
 YY_RULE_SETUP
-#line 60 "lexical.l"
+#line 61 "lexical.l"
 { column_number += yyleng; return if_keyword; }
 	YY_BREAK
 case 33:
 YY_RULE_SETUP
-#line 61 "lexical.l"
+#line 62 "lexical.l"
 { column_number += yyleng; return else_keyword; }
 	YY_BREAK
 case 34:
 YY_RULE_SETUP
-#line 62 "lexical.l"
+#line 63 "lexical.l"
 { column_number += yyleng; return endif_keyword; }
 	YY_BREAK
 case 35:
 YY_RULE_SETUP
-#line 64 "lexical.l"
+#line 65 "lexical.l"
 { column_number += yyleng; return for_keyword;}
 	YY_BREAK
 case 36:
 YY_RULE_SETUP
-#line 65 "lexical.l"
+#line 66 "lexical.l"
 { column_number += yyleng; return do_keyword;}
 	YY_BREAK
 case 37:
 YY_RULE_SETUP
-#line 66 "lexical.l"
+#line 67 "lexical.l"
 { column_number += yyleng; return endfor_keyword;}
 	YY_BREAK
 case 38:
 YY_RULE_SETUP
-#line 69 "lexical.l"
-{ 
-	column_number += yyleng; 
-	if(strlen(yytext) > MAX_IDF_LENGTH) {
-		printf("Erreur: IDF \"%s\" depasse 10 caracteres.\n", yytext);
-	} 
-	return idf;
-}
-	YY_BREAK
-case 39:
-YY_RULE_SETUP
-#line 77 "lexical.l"
+#line 70 "lexical.l"
 {column_number += yyleng;
         yylval.Integer=atoi(yytext); 
 		return csti;
 }
 	YY_BREAK
-case 40:
+case 39:
 YY_RULE_SETUP
-#line 82 "lexical.l"
+#line 75 "lexical.l"
 {column_number += yyleng;
         yylval.Float=atof(yytext); 
 		return cstf;
 }
 	YY_BREAK
+case 40:
+YY_RULE_SETUP
+#line 80 "lexical.l"
+{ 
+	yylval.str = strdup(yytext + 1); 
+	yylval.str[strlen(yylval.str) - 1] = '\0'; 
+	return string; 
+}
+	YY_BREAK
 case 41:
 YY_RULE_SETUP
 #line 87 "lexical.l"
-{
-	column_number += yyleng; 
-	return str;
+{ 
+    column_number += yyleng;
+    if (strlen(yytext) > MAX_IDF_LENGTH) {
+        printf("Erreur: IDF \"%s\" dépasse 10 caractères à la ligne %d, colonne %d.\n", yytext, line_number, column_number);
+        return 0; // Return no token, effectively discarding the input
+    } 
+    yylval.str = strdup(yytext); // If valid, store the identifier
+    return idf;
 }
 	YY_BREAK
 case 42:
 YY_RULE_SETUP
-#line 93 "lexical.l"
+#line 98 "lexical.l"
 { int i=0; while (yytext[i]!='\0' ){ if ( yytext[i]=='\n'){line_number++;}  i++;} }
 	YY_BREAK
 case 43:
 YY_RULE_SETUP
-#line 94 "lexical.l"
+#line 99 "lexical.l"
 { int i=0; while (yytext[i]!='\0' ){ if ( yytext[i]=='\n'){line_number++;}  i++;} }
 	YY_BREAK
 case 44:
 YY_RULE_SETUP
-#line 95 "lexical.l"
+#line 100 "lexical.l"
 { int i=0; while (yytext[i]!='\0' ){ if ( yytext[i]=='\n'){line_number++;}  i++;} }
 	YY_BREAK
 case 45:
 YY_RULE_SETUP
-#line 96 "lexical.l"
+#line 101 "lexical.l"
 {column_number += yyleng;}
 	YY_BREAK
 case 46:
 YY_RULE_SETUP
-#line 97 "lexical.l"
+#line 102 "lexical.l"
 { line_number++;  column_number = 0;}
 	YY_BREAK
 case 47:
 YY_RULE_SETUP
-#line 98 "lexical.l"
+#line 103 "lexical.l"
 {printf("lexical error, line %d , column %d\n", line_number, column_number); }
 	YY_BREAK
 case 48:
 YY_RULE_SETUP
-#line 99 "lexical.l"
+#line 104 "lexical.l"
 ECHO;
 	YY_BREAK
-#line 944 "lex.yy.c"
+#line 948 "lex.yy.c"
 case YY_STATE_EOF(INITIAL):
 	yyterminate();
 
@@ -1826,6 +1830,6 @@ int main()
 	return 0;
 	}
 #endif
-#line 99 "lexical.l"
+#line 104 "lexical.l"
 
 
