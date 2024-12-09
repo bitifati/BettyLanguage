@@ -1,11 +1,12 @@
 %{
 	#include "syntactic.tab.h"
+	#include "TS.h"
     int line_number = 1;
 	int column_number = 0;
 	extern YYSTYPE yylval;
 	#define MAX_IDF_LENGTH 10
 
-	
+
 %}
 letter [A-Za-z]
 digit [0-9]
@@ -16,40 +17,40 @@ STRING \"[^"]*\"
 
 %%
 
-"Programme" { column_number += yyleng; return program_keyword;}
-"InDebut" { column_number += yyleng; return begin_keyword;}
-"InFin" { column_number += yyleng; return end_keyword;}
-"PDec" { column_number += yyleng; return declaration_keyword;}
+"Programme" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return program_keyword;}
+"InDebut" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return begin_keyword;}
+"InFin" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return end_keyword;}
+"PDec" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return declaration_keyword;}
 
-"import" { column_number += yyleng; return import_keyword; }
-"ISIL.io" { column_number += yyleng; return io_library;}
-"ISIL.lang" { column_number += yyleng; return lang_library;}
+"import" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return import_keyword; }
+"ISIL.io" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return io_library;}
+"ISIL.lang" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return lang_library;}
 
-"final" { column_number += yyleng; return final_keyword;}
+"final" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return final_keyword;}
 
-"integer" { column_number += yyleng; return int_keyword;}
-"float" { column_number += yyleng; return float_keyword;}
-"char" { column_number += yyleng; return char_keyword;}
+"integer" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; yylval.str=strdup(yytext); return int_keyword;}
+"float" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; yylval.str=strdup(yytext); return float_keyword;}
+"char" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; yylval.str=strdup(yytext); return char_keyword;}
 
-";" { column_number += yyleng; return semicolon;}
-"|" { column_number += yyleng; return pipe;}
+";" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return semicolon;}
+"|" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return pipe;}
 
-"==" { column_number += yyleng; return equal_op; }
-"<=" { column_number += yyleng; return small_equal_op;}
-">=" { column_number += yyleng; return great_equal_op;}
-">" { column_number += yyleng; return great_op;}
-"<" { column_number += yyleng; return small_op;}
-"!=" { column_number += yyleng; return different_op;}
+"==" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return equal_op; }
+"<=" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return small_equal_op;}
+">=" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return great_equal_op;}
+">" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return great_op;}
+"<" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return small_op;}
+"!=" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return different_op;}
 
-"&&" { column_number += yyleng; return and_keyword;}
-"||" { column_number += yyleng; return or_keyword;}
-"!" { column_number += yyleng; return not_keyword;}
+"&&" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return and_keyword;}
+"||" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return or_keyword;}
+"!" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return not_keyword;}
 
-"<--" { column_number += yyleng; return assignment_op;}
-"+" { column_number += yyleng; return plus_op; }
-"-" { column_number += yyleng; return minus_op;}
-"*" { column_number += yyleng; return multiplication_op;}
-"/" { column_number += yyleng; return devision_op;}
+"<--" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return assignment_op;}
+"+" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return plus_op; }
+"-" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return minus_op;}
+"*" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return multiplication_op;}
+"/" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return devision_op;}
 
 "(" { column_number += yyleng; return left_paranthesis; }
 ")" { column_number += yyleng; return right_paranthesis;}
@@ -60,13 +61,13 @@ STRING \"[^"]*\"
 
 
 
-"if" { column_number += yyleng; return if_keyword; }
-"else" { column_number += yyleng; return else_keyword; }
-"endif" { column_number += yyleng; return endif_keyword; }
+"if" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return if_keyword; }
+"else" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return else_keyword; }
+"endif" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return endif_keyword; }
 
-"for" { column_number += yyleng; return for_keyword;}
-"do" { column_number += yyleng; return do_keyword;}
-"endfor" { column_number += yyleng; return endfor_keyword;}
+"for" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return for_keyword;}
+"do" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return do_keyword;}
+"endfor" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return endfor_keyword;}
 
 
 {cstI} {column_number += yyleng;
@@ -93,6 +94,7 @@ STRING \"[^"]*\"
         return 0; // Return no token, effectively discarding the input
     } 
     yylval.str = strdup(yytext); // If valid, store the identifier
+	rechercher(yytext,"IDF","","",1); 
     return idf;
 }
 

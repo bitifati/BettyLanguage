@@ -1,6 +1,10 @@
 %{
 #include <stdio.h>
 
+char suavType [20];
+char suavbib [20];
+char suavbib1 [20];
+
 extern int line_number;
 void yyerror(char* message)
 {
@@ -17,14 +21,17 @@ int yylex(void);
 }
 
 // Token types
-%token <str>idf <Integer>csti <Float>cstf <str>string
+%token <str>idf 
+%token <Integer>csti 
+%token <Float>cstf 
+%token <str>string
 
 
 // Token declarations
 %token program_keyword begin_keyword end_keyword declaration_keyword
 %token import_keyword io_library lang_library
 %token final_keyword
-%token int_keyword float_keyword char_keyword 
+%token <str>int_keyword <str>float_keyword <str>char_keyword 
 %token semicolon pipe
 %token equal_op small_equal_op great_equal_op great_op small_op different_op 
 %token and_keyword or_keyword not_keyword
@@ -73,9 +80,9 @@ declaration_constant: final_keyword type_keyword idf assignment_op cst semicolon
 
 declaration_variable: type_keyword variable variables semicolon
 ;
-type_keyword: int_keyword 
-            | float_keyword 
-            | char_keyword
+type_keyword: int_keyword {strcpy(suavType,$1); }
+            | float_keyword {strcpy(suavType,$1); }
+            | char_keyword {strcpy(suavType,$1); }
 ;
 variable: idf 
         | array
@@ -162,7 +169,12 @@ for_update: idf assignment_op arithmetic_exp
 ;
 
 %%
-main()
-{
-yyparse();
+main(){
+    initialization();
+    yyparse();
+    afficher();
 }
+yywrap()
+{}
+
+

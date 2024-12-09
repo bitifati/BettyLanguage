@@ -1,22 +1,12 @@
-import ISIL.io; 
-import ISIL.lang;
 Programme isil
 PDec
-/* tada */
-integer x| y;
-final float x <-- 55.482;
-integer baguette[5];
-char phrase;
+integer x| i | j;
+float y | z | a;
 InDebut
 
-for (i <-- (5+ +4) ; i <= 10; i <-- i + 1 -y) do
-if (5/4 <= r+t) do
-croissant <-- 5 / (5-5);
-mvar <-- "Hello world";
-
-endif
-endfor
-
+i <-- 2;
+j <-- i/5;
+x <-- x+1;
 
 InFin
-/*another tada*/
+

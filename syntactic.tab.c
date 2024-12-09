@@ -72,6 +72,10 @@
 
 #include <stdio.h>
 
+char suavType [20];
+char suavbib [20];
+char suavbib1 [20];
+
 extern int line_number;
 void yyerror(char* message)
 {
@@ -81,7 +85,7 @@ int yylex(void);
 
 
 /* Line 189 of yacc.c  */
-#line 85 "syntactic.tab.c"
+#line 89 "syntactic.tab.c"
 
 /* Enabling traces.  */
 #ifndef YYDEBUG
@@ -159,7 +163,7 @@ typedef union YYSTYPE
 {
 
 /* Line 214 of yacc.c  */
-#line 13 "syntactic.y"
+#line 17 "syntactic.y"
 
  int Integer;
  float Float;
@@ -168,7 +172,7 @@ typedef union YYSTYPE
 
 
 /* Line 214 of yacc.c  */
-#line 172 "syntactic.tab.c"
+#line 176 "syntactic.tab.c"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
@@ -180,7 +184,7 @@ typedef union YYSTYPE
 
 
 /* Line 264 of yacc.c  */
-#line 184 "syntactic.tab.c"
+#line 188 "syntactic.tab.c"
 
 #ifdef short
 # undef short
@@ -488,12 +492,12 @@ static const yytype_int8 yyrhs[] =
 /* YYRLINE[YYN] -- source line where rule number YYN was defined.  */
 static const yytype_uint8 yyrline[] =
 {
-       0,    51,    51,    54,    55,    57,    59,    60,    62,    63,
-      66,    67,    68,    71,    74,    76,    77,    78,    80,    81,
-      83,    85,    86,    89,    90,    91,    92,    95,   100,   101,
-     102,   107,   108,   111,   112,   113,   116,   117,   118,   122,
-     123,   124,   127,   128,   129,   132,   133,   134,   137,   138,
-     139,   140,   141,   142,   145,   148,   149,   152,   154,   156
+       0,    58,    58,    61,    62,    64,    66,    67,    69,    70,
+      73,    74,    75,    78,    81,    83,    84,    85,    87,    88,
+      90,    92,    93,    96,    97,    98,    99,   102,   107,   108,
+     109,   114,   115,   118,   119,   120,   123,   124,   130,   134,
+     135,   136,   139,   140,   141,   144,   145,   146,   149,   150,
+     151,   152,   153,   154,   157,   160,   161,   164,   166,   168
 };
 #endif
 
@@ -1484,14 +1488,47 @@ yyreduce:
         case 2:
 
 /* Line 1455 of yacc.c  */
-#line 51 "syntactic.y"
+#line 58 "syntactic.y"
     { printf("syntax is correct\n"); YYACCEPT; ;}
+    break;
+
+  case 15:
+
+/* Line 1455 of yacc.c  */
+#line 83 "syntactic.y"
+    {strcpy(suavType,(yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 16:
+
+/* Line 1455 of yacc.c  */
+#line 84 "syntactic.y"
+    {strcpy(suavType,(yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 17:
+
+/* Line 1455 of yacc.c  */
+#line 85 "syntactic.y"
+    {strcpy(suavType,(yyvsp[(1) - (1)].str)); ;}
+    break;
+
+  case 37:
+
+/* Line 1455 of yacc.c  */
+#line 124 "syntactic.y"
+    {
+                   if ((yyvsp[(3) - (3)].Float) == 0) {
+                       printf("erreur ligne : %d : division par zero\n", line_number);
+                       /*YYABORT;*/  /* Stop parsing */
+                   }
+               ;}
     break;
 
 
 
 /* Line 1455 of yacc.c  */
-#line 1495 "syntactic.tab.c"
+#line 1532 "syntactic.tab.c"
       default: break;
     }
   YY_SYMBOL_PRINT ("-> $$ =", yyr1[yyn], &yyval, &yyloc);
@@ -1703,10 +1740,15 @@ yyreturn:
 
 
 /* Line 1675 of yacc.c  */
-#line 159 "syntactic.y"
+#line 171 "syntactic.y"
 
-main()
-{
-yyparse();
+main(){
+    initialization();
+    yyparse();
+    afficher();
 }
+yywrap()
+{}
+
+
 
