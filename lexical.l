@@ -7,7 +7,10 @@
 letter [A-Za-z]
 digit [0-9]
 IDF {letter}({letter}|{digit})* 
-CST {digit}+
+cstI [-+]?{digit}+
+cstF [-+]?{digit}+("."{digit}+)?
+string \"[^"]*\"
+
 %%
 
 "Programme" { column_number += yyleng; return program_keyword;}
@@ -26,7 +29,6 @@ CST {digit}+
 "char" { column_number += yyleng; return char_keyword;}
 
 ";" { column_number += yyleng; return semicolon;}
-"," { column_number += yyleng; return comma;}
 "|" { column_number += yyleng; return pipe;}
 
 "==" { column_number += yyleng; return equal_op; }
@@ -40,7 +42,7 @@ CST {digit}+
 "||" { column_number += yyleng; return or_keyword;}
 "!" { column_number += yyleng; return not_keyword;}
 
-"=" { column_number += yyleng; return assignment_op;}
+"<--" { column_number += yyleng; return assignment_op;}
 "+" { column_number += yyleng; return plus_op; }
 "-" { column_number += yyleng; return minus_op;}
 "*" { column_number += yyleng; return multiplication_op;}
@@ -49,11 +51,10 @@ CST {digit}+
 "(" { column_number += yyleng; return left_paranthesis; }
 ")" { column_number += yyleng; return right_paranthesis;}
 
-"{" { column_number += yyleng; return left_curly_bracket;}
-"}" { column_number += yyleng; return right_curly_bracket;}
 
 "[" { column_number += yyleng; return left_bracket;}
 "]" { column_number += yyleng; return right_bracket;}
+
 
 
 "if" { column_number += yyleng; return if_keyword; }
@@ -65,8 +66,29 @@ CST {digit}+
 "endfor" { column_number += yyleng; return endfor_keyword;}
 
 
-{CST} { column_number += yyleng; return cst;}
-{IDF} { column_number += yyleng; if(strlen(yytext) > MAX_IDF_LENGTH) {printf("Erreur: IDF \"%s\" depasse 10 caracteres.\n", yytext);} return idf;}
+{IDF} { 
+	column_number += yyleng; 
+	if(strlen(yytext) > MAX_IDF_LENGTH) {
+		printf("Erreur: IDF \"%s\" depasse 10 caracteres.\n", yytext);
+	} 
+	return idf;
+}
+
+{cstI} {column_number += yyleng;
+        yylval.Integer=atoi(yytext); 
+		return csti;
+}
+	
+{cstF} {column_number += yyleng;
+        yylval.Float=atof(yytext); 
+		return cstf;
+}
+
+{string}  {
+	column_number += yyleng; 
+	return str;
+}
+
 
 "//".* { int i=0; while (yytext[i]!='\0' ){ if ( yytext[i]=='\n'){line_number++;}  i++;} }
 "#".* { int i=0; while (yytext[i]!='\0' ){ if ( yytext[i]=='\n'){line_number++;}  i++;} }

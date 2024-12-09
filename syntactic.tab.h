@@ -39,55 +39,68 @@
    /* Put the tokens into the symbol table, so that GDB and other debuggers
       know about them.  */
    enum yytokentype {
-     program_keyword = 258,
-     begin_keyword = 259,
-     end_keyword = 260,
-     declaration_keyword = 261,
-     import_keyword = 262,
-     io_library = 263,
-     lang_library = 264,
-     final_keyword = 265,
-     int_keyword = 266,
-     float_keyword = 267,
-     char_keyword = 268,
-     semicolon = 269,
-     comma = 270,
-     pipe = 271,
-     equal_op = 272,
-     small_equal_op = 273,
-     great_equal_op = 274,
-     great_op = 275,
-     small_op = 276,
-     different_op = 277,
-     and_keyword = 278,
-     or_keyword = 279,
-     not_keyword = 280,
-     assignment_op = 281,
-     plus_op = 282,
-     minus_op = 283,
-     multiplication_op = 284,
-     devision_op = 285,
-     left_paranthesis = 286,
-     right_paranthesis = 287,
-     left_curly_bracket = 288,
-     right_curly_bracket = 289,
-     left_bracket = 290,
-     right_bracket = 291,
-     if_keyword = 292,
-     else_keyword = 293,
-     endif_keyword = 294,
-     for_keyword = 295,
-     do_keyword = 296,
-     endfor_keyword = 297,
-     idf = 298,
-     cst = 299
+     idf = 258,
+     csti = 259,
+     cstf = 260,
+     str = 261,
+     program_keyword = 262,
+     begin_keyword = 263,
+     end_keyword = 264,
+     declaration_keyword = 265,
+     import_keyword = 266,
+     io_library = 267,
+     lang_library = 268,
+     final_keyword = 269,
+     int_keyword = 270,
+     float_keyword = 271,
+     char_keyword = 272,
+     semicolon = 273,
+     pipe = 274,
+     equal_op = 275,
+     small_equal_op = 276,
+     great_equal_op = 277,
+     great_op = 278,
+     small_op = 279,
+     different_op = 280,
+     and_keyword = 281,
+     or_keyword = 282,
+     not_keyword = 283,
+     assignment_op = 284,
+     plus_op = 285,
+     minus_op = 286,
+     multiplication_op = 287,
+     devision_op = 288,
+     left_paranthesis = 289,
+     right_paranthesis = 290,
+     left_bracket = 291,
+     right_bracket = 292,
+     if_keyword = 293,
+     else_keyword = 294,
+     endif_keyword = 295,
+     for_keyword = 296,
+     do_keyword = 297,
+     endfor_keyword = 298
    };
 #endif
 
 
 
 #if ! defined YYSTYPE && ! defined YYSTYPE_IS_DECLARED
-typedef int YYSTYPE;
+typedef union YYSTYPE
+{
+
+/* Line 1676 of yacc.c  */
+#line 13 "syntactic.y"
+
+ int Integer;
+ float Float;
+ char* str;
+
+
+
+/* Line 1676 of yacc.c  */
+#line 103 "syntactic.tab.h"
+} YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */
 # define YYSTYPE_IS_DECLARED 1
