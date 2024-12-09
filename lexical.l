@@ -4,6 +4,8 @@
 	int column_number = 0;
 	extern YYSTYPE yylval;
 	#define MAX_IDF_LENGTH 10
+
+	
 %}
 letter [A-Za-z]
 digit [0-9]

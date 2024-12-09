@@ -11,7 +11,7 @@ InDebut
 
 for (i <-- (5+ +4) ; i <= 10; i <-- i + 1 -y) do
 if (5/4 <= r+t) do
-croissant <-- 5 + 5;
+croissant <-- 5 / (5-5);
 mvar <-- "Hello world";
 
 endif

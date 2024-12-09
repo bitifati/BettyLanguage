@@ -36,9 +36,14 @@ int yylex(void);
 
 
 // Define operator precedence and associativity
-//%left plus_op minus_op
+%left plus_op minus_op
 %left multiplication_op devision_op
 %nonassoc equal_op different_op great_op small_op small_equal_op great_equal_op
+
+
+%type<Float> arithmetic_exp arithmetic_exp1 arithmetic_exp2
+
+
 
 // Start rule
 %start s
@@ -109,9 +114,15 @@ arithmetic_exp: arithmetic_exp plus_op arithmetic_exp1
 ;
 
 arithmetic_exp1: arithmetic_exp1 multiplication_op arithmetic_exp2
-               | arithmetic_exp1 devision_op arithmetic_exp2 
+               | arithmetic_exp1 devision_op arithmetic_exp2 {
+                   if ($3 == 0) {
+                       printf("erreur ligne : %d : division par zero\n", line_number);
+                       /*YYABORT;*/  /* Stop parsing */
+                   }
+               }
                | arithmetic_exp2
 ;
+
 
 arithmetic_exp2: idf
                | cst
