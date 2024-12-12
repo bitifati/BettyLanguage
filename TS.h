@@ -156,3 +156,92 @@ for(i=0;i<cpts;i++)
 
 }
 
+
+
+
+
+
+
+
+///////////////////////////////////////////////////////////////////
+
+
+void insererType(char entite[], char type[]) {
+    int posEntite = -1;
+    int i; // Déclaration de la variable en dehors de la boucle
+
+    // Recherche de l'entité dans la table TS
+    for (i = 0; i < 200; i++) {
+        if (TS[i].state == 1 && strcmp(TS[i].name, entite) == 0) {
+            posEntite = i;
+            break;
+        }
+    }
+
+    if (posEntite != -1) {
+        strcpy(TS[posEntite].type, type);
+    } else {
+        printf("Erreur : L'entité %s n'existe pas dans la table des symboles.\n", entite);
+    }
+}
+
+
+
+///////////////////////////////////////
+
+
+
+
+
+void insererTailleTab(char entite[], char taille[]) {
+    int posEntite = -1;
+    int i; // Déclaration de la variable en dehors de la boucle
+
+    // Recherche de l'entité dans la table TS
+    for (i = 0; i < 200; i++) {
+        if (TS[i].state == 1 && strcmp(TS[i].name, entite) == 0) {
+            posEntite = i;
+            break;
+        }
+    }
+
+    if (posEntite != -1) {
+        strcpy(TS[posEntite].val, taille);
+    } else {
+        printf("Erreur : L'entité %s n'existe pas dans la table des symboles.\n", entite);
+    }
+}
+
+
+
+///////////////////////////////
+
+
+// double declaration **
+
+
+int doubleDeclaration(char entite[]) {
+    int posEntite;
+
+    // Recherche de la position de l'entité dans la table TS
+    for (posEntite = 0; posEntite < 200 && TS[posEntite].state == 1; posEntite++) {
+        if (strcmp(TS[posEntite].name, entite) == 0) {
+            break;
+        }
+    }
+
+    if (posEntite == 200 || TS[posEntite].state == 0) {
+        // L'entité n'existe pas dans la table des symboles
+        return 0;
+    }
+
+    // Vérification si le type est déjà associé à l'entité
+    if (strcmp(TS[posEntite].type, "") == 0) {
+        return 0;  // Pas encore déclarée
+    } else {
+        return 1;  // Double déclaration
+    }
+}
+
+
+

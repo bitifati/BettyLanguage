@@ -31,13 +31,14 @@ int yylex(void);
 %token program_keyword begin_keyword end_keyword declaration_keyword
 %token import_keyword io_library lang_library
 %token final_keyword
-%token <str>int_keyword <str>float_keyword <str>char_keyword 
+%token <str>int_keyword <str>float_keyword <str>char_keyword <str>bool_keyword
 %token semicolon pipe
 %token equal_op small_equal_op great_equal_op great_op small_op different_op 
 %token and_keyword or_keyword not_keyword
 %token assignment_op plus_op minus_op multiplication_op devision_op 
 %token left_paranthesis right_paranthesis
-%token left_bracket right_bracket  
+%token left_bracket right_bracket
+%token <Integer>true_keyword <Integer>false_keyword;  
 %token if_keyword else_keyword endif_keyword
 %token for_keyword do_keyword endfor_keyword
 
@@ -134,6 +135,8 @@ arithmetic_exp1: arithmetic_exp1 multiplication_op arithmetic_exp2
 arithmetic_exp2: idf
                | cst
                | left_paranthesis arithmetic_exp right_paranthesis
+			   | true_keyword
+			   | false_keyword
 ;
 
 logic_exp: comparison_exp

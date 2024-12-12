@@ -54,32 +54,35 @@
      int_keyword = 270,
      float_keyword = 271,
      char_keyword = 272,
-     semicolon = 273,
-     pipe = 274,
-     equal_op = 275,
-     small_equal_op = 276,
-     great_equal_op = 277,
-     great_op = 278,
-     small_op = 279,
-     different_op = 280,
-     and_keyword = 281,
-     or_keyword = 282,
-     not_keyword = 283,
-     assignment_op = 284,
-     plus_op = 285,
-     minus_op = 286,
-     multiplication_op = 287,
-     devision_op = 288,
-     left_paranthesis = 289,
-     right_paranthesis = 290,
-     left_bracket = 291,
-     right_bracket = 292,
-     if_keyword = 293,
-     else_keyword = 294,
-     endif_keyword = 295,
-     for_keyword = 296,
-     do_keyword = 297,
-     endfor_keyword = 298
+     bool_keyword = 273,
+     semicolon = 274,
+     pipe = 275,
+     equal_op = 276,
+     small_equal_op = 277,
+     great_equal_op = 278,
+     great_op = 279,
+     small_op = 280,
+     different_op = 281,
+     and_keyword = 282,
+     or_keyword = 283,
+     not_keyword = 284,
+     assignment_op = 285,
+     plus_op = 286,
+     minus_op = 287,
+     multiplication_op = 288,
+     devision_op = 289,
+     left_paranthesis = 290,
+     right_paranthesis = 291,
+     left_bracket = 292,
+     right_bracket = 293,
+     true_keyword = 294,
+     false_keyword = 295,
+     if_keyword = 296,
+     else_keyword = 297,
+     endif_keyword = 298,
+     for_keyword = 299,
+     do_keyword = 300,
+     endfor_keyword = 301
    };
 #endif
 
@@ -99,7 +102,7 @@ typedef union YYSTYPE
 
 
 /* Line 1676 of yacc.c  */
-#line 103 "syntactic.tab.h"
+#line 106 "syntactic.tab.h"
 } YYSTYPE;
 # define YYSTYPE_IS_TRIVIAL 1
 # define yystype YYSTYPE /* obsolescent; will be withdrawn */

@@ -12,7 +12,7 @@ letter [A-Za-z]
 digit [0-9]
 IDF {letter}({letter}|{digit})* 
 cstI [-+]?{digit}+
-cstF [-+]?{digit}+("."{digit}+)?
+cstF [-+]?{digit}+("."{digit}+)? 
 STRING \"[^"]*\" 
 
 %%
@@ -31,6 +31,7 @@ STRING \"[^"]*\"
 "integer" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; yylval.str=strdup(yytext); return int_keyword;}
 "float" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; yylval.str=strdup(yytext); return float_keyword;}
 "char" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; yylval.str=strdup(yytext); return char_keyword;}
+"bool" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; yylval.str=strdup(yytext); return bool_keyword; }
 
 ";" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return semicolon;}
 "|" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return pipe;}
@@ -52,14 +53,15 @@ STRING \"[^"]*\"
 "*" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return multiplication_op;}
 "/" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return devision_op;}
 
-"(" { column_number += yyleng; return left_paranthesis; }
-")" { column_number += yyleng; return right_paranthesis;}
+"(" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return left_paranthesis; }
+")" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return right_paranthesis;}
 
 
-"[" { column_number += yyleng; return left_bracket;}
-"]" { column_number += yyleng; return right_bracket;}
+"[" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return left_bracket;}
+"]" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return right_bracket;}
 
-
+"true" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; yylval.Integer = 1; return true_keyword;}
+"false" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; yylval.Integer = 0; return false_keyword;}
 
 "if" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return if_keyword; }
 "else" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; return else_keyword; }
