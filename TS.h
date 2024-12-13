@@ -245,3 +245,49 @@ int doubleDeclaration(char entite[]) {
 
 
 
+
+
+
+/////////////////////////////////////
+
+// compparison function 
+
+// comparison_exp: arithmetic_exp comparison_op arithmetic_exp 
+
+int compare(int x, const char *op, int y) {
+    if (strcmp(op, "==") == 0) {
+        return x == y;
+    } else if (strcmp(op, "!=") == 0) {
+        return x != y;
+    } else if (strcmp(op, ">=") == 0) {
+        return x >= y;
+    } else if (strcmp(op, ">") == 0) {
+        return x > y;
+    } else if (strcmp(op, "<=") == 0) {
+        return x <= y;
+    } else if (strcmp(op, "<") == 0) {
+        return x < y;
+    } else {
+        printf("Error: Unknown operator '%s'\n", op);
+    }
+}
+
+
+/////////////////////////////////////////////////////////
+
+
+// Function to retrieve the value associated with an identifier (IDF)
+
+
+char* getValByIdf(char* idf) {
+    int i; // Declare the variable outside the loop
+    for (i = 0; i < 200; i++) {
+        if (TS[i].state == 1 && strcmp(TS[i].name, idf) == 0) {
+            return TS[i].val; // Return the value if the identifier is found
+        }
+    }
+    return NULL; // Return NULL if the identifier is not found
+}
+
+
+

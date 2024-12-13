@@ -6,6 +6,8 @@ char suavbib [20];
 char suavbib1 [20];
 
 extern int line_number;
+extern char* getValByIdf(char* idf);  // Declaration of getValByIdf function
+
 void yyerror(char* message)
 {
     printf("syntax error, line %d : %s", line_number, message);
@@ -33,7 +35,7 @@ int yylex(void);
 %token final_keyword
 %token <str>int_keyword <str>float_keyword <str>char_keyword <str>bool_keyword
 %token semicolon pipe
-%token equal_op small_equal_op great_equal_op great_op small_op different_op 
+%token <str>equal_op <str>small_equal_op <str>great_equal_op <str>great_op <str>small_op <str>different_op 
 %token and_keyword or_keyword not_keyword
 %token assignment_op plus_op minus_op multiplication_op devision_op 
 %token left_paranthesis right_paranthesis
@@ -49,9 +51,10 @@ int yylex(void);
 %nonassoc equal_op different_op great_op small_op small_equal_op great_equal_op
 
 
-%type<Float> arithmetic_exp arithmetic_exp1 arithmetic_exp2
+%type<Float> arithmetic_exp arithmetic_exp1 arithmetic_exp2 cst
 
-
+%type <Integer>comparison_exp logic_exp
+%type <str> comparison_op
 
 // Start rule
 %start s
@@ -84,13 +87,14 @@ declaration_variable: type_keyword variable variables semicolon
 type_keyword: int_keyword {strcpy(suavType,$1); }
             | float_keyword {strcpy(suavType,$1); }
             | char_keyword {strcpy(suavType,$1); }
+			| bool_keyword {strcpy(suavType,$1); }
 ;
-variable: idf 
-        | array
+variable: idf { if(doubleDeclaration($1)==0){ insererType($1, suavType);} else{printf("erreur Semantique: double declaration de %s, a la ligne %d \n", $1, line_number);} }
+        | array 
 ;
-array: idf left_bracket csti right_bracket
+array: idf left_bracket csti right_bracket { if (doubleDeclaration($1)==0) {insererType($1,suavType);} else {printf("erreur Semantique: double declation de %s, a la ligne %d \n", $1, line_number);}  }
 ;
-variables: pipe idf variables 
+variables: pipe idf variables { if(doubleDeclaration($2)==0){ insererType($2, suavType); }else{printf("erreur Semantique: double declaration de %s, a la ligne %d \n", $2, line_number);} }
          | /* epsilon */
 ;
 
@@ -112,41 +116,52 @@ expression: arithmetic_exp
 
 
 
-cst: cstf
-   | csti
+cst: cstf { $$ = $1 }
+   | csti { $$ = (float)$1; }
 ;
 
-arithmetic_exp: arithmetic_exp plus_op arithmetic_exp1
-              | arithmetic_exp minus_op arithmetic_exp1
-              | arithmetic_exp1
+arithmetic_exp: arithmetic_exp plus_op arithmetic_exp1 {$$=$1+$3}
+              | arithmetic_exp minus_op arithmetic_exp1 {$$=$1-$3}
+              | arithmetic_exp1 { $$=$1; }
 ;
 
-arithmetic_exp1: arithmetic_exp1 multiplication_op arithmetic_exp2
+arithmetic_exp1: arithmetic_exp1 multiplication_op arithmetic_exp2 {$$=$1*$3;}
                | arithmetic_exp1 devision_op arithmetic_exp2 {
                    if ($3 == 0) {
                        printf("erreur ligne : %d : division par zero\n", line_number);
-                       /*YYABORT;*/  /* Stop parsing */
+                       YYABORT;  /* Stop parsing */
                    }
+				   else {
+						$$ = $1 / $3;
+				   }
                }
-               | arithmetic_exp2
+               | arithmetic_exp2 { $$ = $1; }
+; 
+
+
+arithmetic_exp2: idf {
+						char* value = getValByIdf($1);
+						if (value) {
+							$$ = atof(value);  // Convert the string value to a float 
+						} else {
+							printf("Error: Undefined identifier '%s' at line %d\n", $1, line_number);
+							YYABORT;
+						}
+					 }
+               | cst { $$ = $1; }
+               | left_paranthesis arithmetic_exp right_paranthesis {$$ = $2;}
 ;
 
-
-arithmetic_exp2: idf
-               | cst
-               | left_paranthesis arithmetic_exp right_paranthesis
-			   | true_keyword
-			   | false_keyword
+logic_exp: comparison_exp { $$ = $1}
+         | logic_exp and_keyword comparison_exp { $$ = $1 && $3;}
+         | logic_exp or_keyword comparison_exp { $$ = $1 || $3; }
 ;
 
-logic_exp: comparison_exp
-         | logic_exp and_keyword comparison_exp
-         | logic_exp or_keyword comparison_exp
-;
-
-comparison_exp: arithmetic_exp comparison_op arithmetic_exp
-              | left_paranthesis comparison_exp right_paranthesis
-              | not_keyword comparison_exp
+comparison_exp: arithmetic_exp comparison_op arithmetic_exp { $$ = compare($1, $2, $3); }
+              | left_paranthesis comparison_exp right_paranthesis { $$ = $2; }
+              | not_keyword comparison_exp { $$ = !$2; }
+			  | true_keyword { $$ = 1; }
+			  | false_keyword {$$ = 0; }
 ;
 
 comparison_op: equal_op

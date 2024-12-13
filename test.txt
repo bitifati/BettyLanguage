@@ -1,7 +1,9 @@
 Programme isil
 PDec
-integer x| i | j;
-float y | z | a;
+integer x| i | j ;
+float y | z | a ;
+char CC;
+bool GG;
 InDebut
 
 i <-- 2;
