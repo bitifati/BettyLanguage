@@ -7,6 +7,8 @@ char suavbib1 [20];
 
 extern int line_number;
 extern char* getValByIdf(char* idf);  // Declaration of getValByIdf function
+extern char* floatToString(float number);
+extern char* integerToString(int number);
 
 void yyerror(char* message)
 {
@@ -26,7 +28,7 @@ int yylex(void);
 %token <str>idf 
 %token <Integer>csti 
 %token <Float>cstf 
-%token <str>string
+%token <str>string //  i will use string later
 
 
 // Token declarations
@@ -98,30 +100,34 @@ variables: pipe idf variables { if(doubleDeclaration($2)==0){ insererType($2, su
          | /* epsilon */
 ;
 
-body: assignment body
+body: assignment_arithmetic body
     | if_condition body
     | for_loop body
     | /* epsilon */ 
 ;
 
-assignment: idf assignment_op expression semicolon    
+assignment_arithmetic: idf assignment_op arithmetic_exp semicolon  {
+    char* value;
+    value = floatToString($3);
+    sprintf(value, "%f", $3);
+    assignValueToVar($1, value);
+}
 ;
 
 
-
-expression: arithmetic_exp 
-          | logic_exp
-          | string
+/*
+expression: arithmetic_exp {}
+          | logic_exp {$$ = $1;}
 ;
+*/
 
 
-
-cst: cstf { $$ = $1 }
+cst: cstf { $$ = $1; }
    | csti { $$ = (float)$1; }
 ;
 
-arithmetic_exp: arithmetic_exp plus_op arithmetic_exp1 {$$=$1+$3}
-              | arithmetic_exp minus_op arithmetic_exp1 {$$=$1-$3}
+arithmetic_exp: arithmetic_exp plus_op arithmetic_exp1 {$$=$1+$3;}
+              | arithmetic_exp minus_op arithmetic_exp1 {$$=$1-$3;}
               | arithmetic_exp1 { $$=$1; }
 ;
 

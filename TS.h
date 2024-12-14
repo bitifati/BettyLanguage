@@ -291,3 +291,63 @@ char* getValByIdf(char* idf) {
 
 
 
+
+
+//////////////////////////////////////////////
+
+
+// Function to assign a value to the 'val' column for a variable in TS
+
+
+
+
+void assignValueToVar(char entite[], char val[]) {
+    int posEntite = -1;
+    int i; // Déclaration de la variable en dehors de la boucle
+
+    // Recherche de l'entité dans la table TS
+    for (i = 0; i < 200; i++) {
+        if (TS[i].state == 1 && strcmp(TS[i].name, entite) == 0) {
+            posEntite = i;
+            break;
+        }
+    }
+
+    if (posEntite != -1) {
+        strcpy(TS[posEntite].val, val);
+    } else {
+        printf("Erreur : L'entité %s n'existe pas dans la table des symboles.\n", entite);
+    }
+}
+
+
+
+/////////////////////////////////////////
+
+
+// transform float to string
+
+char* floatToString(float number) {
+    char* str = (char*)malloc(20 * sizeof(char));
+    if (str == NULL) {
+        return NULL; // Gérer une éventuelle erreur d'allocation
+    }
+    sprintf(str, "%f", number);
+    return str;
+}
+
+
+// transform integer to string
+
+char* integerToString(int number) {
+    char* str = (char*)malloc(20 * sizeof(char));
+    if (str == NULL) {
+        return NULL; // Gestion d'une éventuelle erreur d'allocation
+    }
+    sprintf(str, "%d", number);
+    return str;
+}
+
+
+
+
