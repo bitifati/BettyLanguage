@@ -763,7 +763,7 @@ YY_RULE_SETUP
 case 14:
 YY_RULE_SETUP
 #line 37 "lexical.l"
-{ rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return pipe;}
+{ rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return pipe_keyword;}
 	YY_BREAK
 case 15:
 YY_RULE_SETUP

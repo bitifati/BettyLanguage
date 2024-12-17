@@ -1,14 +1,17 @@
 Programme isil
 PDec
-integer x| i | j ;
+integer x | i | j ;
 float y | z | a ;
+final integer b <-- 4;
 char CC;
 bool GG;
 InDebut
 
+CC <-- "bruuuh";
+a <-- 5.6 ;
 i <-- 2;
-j <-- i/5;
-x <-- x+ +1;
+j <-- i/1;
+x <-- 4;
 
 InFin
 

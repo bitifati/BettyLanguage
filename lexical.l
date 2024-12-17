@@ -34,7 +34,7 @@ STRING \"[^"]*\"
 "bool" { rechercher(yytext,"Mot cle",0,"",2); column_number += yyleng; yylval.str=strdup(yytext); return bool_keyword; }
 
 ";" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return semicolon;}
-"|" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return pipe;}
+"|" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return pipe_keyword;}
 
 "==" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return equal_op; }
 "<=" { rechercher(yytext,"Separateur",0,"",3); column_number += yyleng; return small_equal_op;}

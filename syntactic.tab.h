@@ -56,7 +56,7 @@
      char_keyword = 272,
      bool_keyword = 273,
      semicolon = 274,
-     pipe = 275,
+     pipe_keyword = 275,
      equal_op = 276,
      small_equal_op = 277,
      great_equal_op = 278,
@@ -93,7 +93,7 @@ typedef union YYSTYPE
 {
 
 /* Line 1676 of yacc.c  */
-#line 21 "syntactic.y"
+#line 25 "syntactic.y"
 
  int Integer;
  float Float;

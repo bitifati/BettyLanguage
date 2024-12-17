@@ -16,6 +16,7 @@ typedef struct
    char code[20];
    char type[20];
    char val[20];
+   char constant[20];
  } TypeTS;
 
 typedef struct
@@ -87,7 +88,7 @@ switch(y)
    case 1: 
         for (i=0;((i<200)&&(TS[i].state==1))&&(strcmp(entite,TS[i].name)!=0);i++); 
         if(i<200 && strcmp(entite,TS[i].name)!=0)
-        { inserer(entite,code,type,val,i,1); 
+        { inserer(entite,code,type,"Null",i,1); 
         }else printf(">>>> L'entite %s existe deja \n",entite);
         break;
 
@@ -114,46 +115,50 @@ switch(y)
 /*Fonction d'affichage de la TS */
 
 void afficher()
-{int i;
+{
+    int i;
 
-printf("/***************Table des symboles IDF*************/\n");
-printf("____________________________________________________________________\n");
-printf("\t| Nom_Entite |  Code_Entite | Type_Entite | Val_Entite\n");
-printf("____________________________________________________________________\n");
-  
-for(i=0;i<cpt;i++)
-{	
-    if(TS[i].state==1)
-      { 
-        printf("\t|%11s |%12s | %12s | %12s\n",TS[i].name,TS[i].code,TS[i].type,TS[i].val);
-         
-      }
-}
-printf("\n/***************Table des symboles mots cles*************/\n");
-printf("_____________________________________\n");
-printf("\t| NomEntite |  CodeEntite | \n");
-printf("_____________________________________\n");
-  
-for(i=0;i<cptm;i++)
-    if(tabM[i].state==1)
-      { 
-        printf("\t|%10s |%12s | \n",tabM[i].name, tabM[i].type);
-               
-      }
+    printf("/*************** Table des symboles IDF ***************/\n");
+    printf("___________________________________________________________________________________________\n");
+    printf("|   Nom_Entite   |   Code_Entite   |   Type_Entite   |   Val_Entite  | Categorie_Entite |\n");
+    printf("___________________________________________________________________________________________\n");
 
-printf("\n/***************Table des symboles separateurs*************/\n");
+    for (i = 0; i < cpt; i++)
+    {   
+        if (TS[i].state == 1)
+        { 
+            printf("|%15s |%15s |%15s |%15s |\n", TS[i].name, TS[i].code, TS[i].type, TS[i].val);
+        }
+    }
+    printf("_____________________________________________________________________________________\n\n");
 
-printf("_____________________________________\n");
-printf("\t| NomEntite |  CodeEntite | \n");
-printf("_____________________________________\n");
-  
-for(i=0;i<cpts;i++)
-    if(tabS[i].state==1)
-      { 
-        printf("\t|%10s |%12s | \n",tabS[i].name,tabS[i].type );
-        
-      }
+    printf("/*************** Table des symboles mots cles ***************/\n");
+    printf("_________________________________________\n");
+    printf("|   Nom_Entite   |   Code_Entite   |\n");
+    printf("_________________________________________\n");
 
+    for (i = 0; i < cptm; i++)
+    {
+        if (tabM[i].state == 1)
+        { 
+            printf("|%15s |%15s |\n", tabM[i].name, tabM[i].type);
+        }
+    }
+    printf("_________________________________________\n\n");
+
+    printf("/*************** Table des symboles separateurs ***************/\n");
+    printf("_________________________________________\n");
+    printf("|   Nom_Entite   |   Code_Entite   |\n");
+    printf("_________________________________________\n");
+
+    for (i = 0; i < cpts; i++)
+    {
+        if (tabS[i].state == 1)
+        { 
+            printf("|%15s |%15s |\n", tabS[i].name, tabS[i].type);
+        }
+    }
+    printf("_________________________________________\n\n");
 }
 
 
@@ -278,6 +283,7 @@ int compare(int x, const char *op, int y) {
 
 // Function to retrieve the value associated with an identifier (IDF)
 
+//mine
 
 char* getValByIdf(char* idf) {
     int i; // Declare the variable outside the loop
@@ -298,9 +304,9 @@ char* getValByIdf(char* idf) {
 
 // Function to assign a value to the 'val' column for a variable in TS
 
+//mine
 
-
-
+/*
 void assignValueToVar(char entite[], char val[]) {
     int posEntite = -1;
     int i; // Déclaration de la variable en dehors de la boucle
@@ -319,6 +325,42 @@ void assignValueToVar(char entite[], char val[]) {
         printf("Erreur : L'entité %s n'existe pas dans la table des symboles.\n", entite);
     }
 }
+*/
+
+
+//2nd attempt
+
+void assignValueToVar(char entite[], char val[]) {
+    int posEntite = -1;
+    int i;
+    // Recherche de l'entité dans la table TS
+    for (i = 0; i < 200; i++) {
+        if (TS[i].state == 1 && strcmp(TS[i].name, entite) == 0) {
+            posEntite = i;
+            break;
+        }
+    }
+
+    if (posEntite != -1) {
+        // Vérification du type et conversion si nécessaire
+        if (strcmp(TS[posEntite].type, "integer") == 0) {
+            sprintf(TS[posEntite].val, "%d", atoi(val)); // Conversion en entier
+        } else if (strcmp(TS[posEntite].type, "float") == 0) {
+            sprintf(TS[posEntite].val, "%f", atof(val)); // Conversion en flottant
+        } else {
+            strcpy(TS[posEntite].val, val); // Direct pour d'autres types
+        }
+    } else {
+        printf("Erreur : L'entité %s n'existe pas dans la table des symboles.\n", entite);
+    }
+}
+
+
+
+
+
+
+
 
 
 
@@ -339,6 +381,7 @@ char* floatToString(float number) {
 
 // transform integer to string
 
+
 char* integerToString(int number) {
     char* str = (char*)malloc(20 * sizeof(char));
     if (str == NULL) {
@@ -348,6 +391,90 @@ char* integerToString(int number) {
     return str;
 }
 
+
+////////////////////////////////////////////
+
+//category is used for either the idf is a constant or variable
+/*
+void fillCategory(char* idf, int val) {
+    int posEntite = -1;
+    int i;
+
+    // Recherche de l'entité dans la table TS
+    for (i = 0; i < 200; i++) {
+        if (TS[i].state == 1 && strcmp(TS[i].name, idf) == 0) {
+            posEntite = i; // Position trouvée
+            break;
+        }
+    }
+
+    if (posEntite != -1) {
+        // Affecter "true" ou "false" en fonction de val
+        if (val == 1) {
+            strcpy(TS[posEntite].constant, "true");
+        } else if (val == 0) {
+            strcpy(TS[posEntite].constant, "false");
+        } else {
+            printf("Erreur : La valeur %d n'est pas valide pour 'val'.\n", val);
+        }
+    } else {
+        printf("Erreur : L'identifiant '%s' n'existe pas dans la table des symboles.\n", idf);
+    }
+}
+*/
+
+void fillCategory(char* idf, int val) {
+    int posEntite = -1;
+    int i;
+
+    // Recherche de l'entité dans la table TS
+    for (i = 0; i < 200; i++) {
+        if (TS[i].state == 1 && strcmp(TS[i].name, idf) == 0) {
+            posEntite = i; // Position trouvée
+            break;
+        }
+    }
+
+    if (posEntite != -1) {
+        // Affecter "true" ou "false" à la colonne 'constant' en fonction de val
+        if (val == 1) {
+            strcpy(TS[posEntite].constant, "true");
+        } else if (val == 0) {
+            strcpy(TS[posEntite].constant, "false");
+        } else {
+            printf("Erreur : La valeur %d n'est pas valide pour 'val'.\n", val);
+        }
+    } else {
+        printf("Erreur : L'identifiant '%s' n'existe pas dans la table des symboles.\n", idf);
+    }
+}
+
+
+//////////
+
+
+void insererConstant(char entite[], int val) {
+    int posEntite = -1;
+    int i; // Déclaration de la variable en dehors de la boucle
+
+    // Recherche de l'entité dans la table TS
+    for (i = 0; i < 200; i++) {
+        if (TS[i].state == 1 && strcmp(TS[i].name, entite) == 0) {
+            posEntite = i;
+            break;
+        }
+    }
+
+    if (posEntite != -1) {
+        if( val == 1){
+            strcpy(TS[posEntite].constant, "true");
+        } else {
+            strcpy(TS[posEntite].constant, "false");
+        }
+    } else {
+        printf("Erreur : L'entité %s n'existe pas dans la table des symboles.\n", entite);
+    }
+}
 
 
 

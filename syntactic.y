@@ -9,6 +9,10 @@ extern int line_number;
 extern char* getValByIdf(char* idf);  // Declaration of getValByIdf function
 extern char* floatToString(float number);
 extern char* integerToString(int number);
+//extern void fillCategory(char* idf, int val);
+extern void insererConstant(char entite[], int val);
+
+extern void assignValueToVar(char entite[], char val[]);
 
 void yyerror(char* message)
 {
@@ -36,7 +40,7 @@ int yylex(void);
 %token import_keyword io_library lang_library
 %token final_keyword
 %token <str>int_keyword <str>float_keyword <str>char_keyword <str>bool_keyword
-%token semicolon pipe
+%token semicolon pipe_keyword
 %token <str>equal_op <str>small_equal_op <str>great_equal_op <str>great_op <str>small_op <str>different_op 
 %token and_keyword or_keyword not_keyword
 %token assignment_op plus_op minus_op multiplication_op devision_op 
@@ -72,7 +76,7 @@ single_import: import_keyword library libraries semicolon
 library: io_library 
        | lang_library
 ;
-libraries: pipe library libraries
+libraries: pipe_keyword library libraries
          | /* epsilon */
 ;
 
@@ -81,8 +85,29 @@ declaration_part: declaration_variable declaration_part
                 | /* epsilon */
 ;
 
-declaration_constant: final_keyword type_keyword idf assignment_op cst semicolon
+/*
+declaration_constant: final_keyword type_keyword idf assignment_op cst semicolon {
+    if (doubleDeclaration($3)==0) {
+        insererType($3,suavType); 
+        fillCategory($3, 1);
+    } else{
+        printf("erreur Semantique: double declaration de %s, a la ligne %d \n", $1, line_number);
+    } 
+}
 ;
+*/
+
+declaration_constant: final_keyword type_keyword idf assignment_op cst semicolon {
+    if (doubleDeclaration($3) == 0) {
+        insererType($3, suavType);  // Insère l'identifiant dans la table des symboles avec son type
+        insererConstant($3, 1);        // Marque l'identifiant comme constant ("true")
+    } else {
+        printf("Erreur Sémantique : double déclaration de %s à la ligne %d\n", $3, line_number);
+    }
+}
+;
+
+
 
 declaration_variable: type_keyword variable variables semicolon
 ;
@@ -91,28 +116,52 @@ type_keyword: int_keyword {strcpy(suavType,$1); }
             | char_keyword {strcpy(suavType,$1); }
 			| bool_keyword {strcpy(suavType,$1); }
 ;
-variable: idf { if(doubleDeclaration($1)==0){ insererType($1, suavType);} else{printf("erreur Semantique: double declaration de %s, a la ligne %d \n", $1, line_number);} }
+variable: idf { 
+    if(doubleDeclaration($1)==0){ 
+        insererType($1, suavType);
+    } else{
+        printf("erreur Semantique: double declaration de %s, a la ligne %d \n", $1, line_number);
+    } 
+}
         | array 
 ;
-array: idf left_bracket csti right_bracket { if (doubleDeclaration($1)==0) {insererType($1,suavType);} else {printf("erreur Semantique: double declation de %s, a la ligne %d \n", $1, line_number);}  }
+array: idf left_bracket csti right_bracket { 
+    if (doubleDeclaration($1)==0) {
+        insererType($1,suavType); 
+    } else {
+        printf("erreur Semantique: double declation de %s, a la ligne %d \n", $1, line_number);
+    }  
+}
 ;
-variables: pipe idf variables { if(doubleDeclaration($2)==0){ insererType($2, suavType); }else{printf("erreur Semantique: double declaration de %s, a la ligne %d \n", $2, line_number);} }
+variables: pipe_keyword idf variables { if(doubleDeclaration($2)==0){ insererType($2, suavType); }else{printf("erreur Semantique: double declaration de %s, a la ligne %d \n", $2, line_number);} }
          | /* epsilon */
 ;
 
 body: assignment_arithmetic body
+    | assignment_string body
+    | assignment_logic body
     | if_condition body
     | for_loop body
     | /* epsilon */ 
 ;
 
-assignment_arithmetic: idf assignment_op arithmetic_exp semicolon  {
-    char* value;
-    value = floatToString($3);
-    sprintf(value, "%f", $3);
-    assignValueToVar($1, value);
+assignment_string: idf assignment_op string semicolon {
+    assignValueToVar($1, $3);
 }
 ;
+
+
+
+assignment_arithmetic: idf assignment_op arithmetic_exp semicolon {
+    char* value = floatToString($3);  // Convert result to string
+    assignValueToVar($1, value);    // Assign value to variable in the symbol table
+    free(value);                   // Free dynamically allocated memory
+}
+;
+
+
+
+
 
 
 /*
@@ -122,40 +171,53 @@ expression: arithmetic_exp {}
 */
 
 
-cst: cstf { $$ = $1; }
-   | csti { $$ = (float)$1; }
+cst: cstf { $$ = $1; }  // Valeur flottante
+   | csti { $$ = (float)$1; } // Conversion explicite en flottant
 ;
 
-arithmetic_exp: arithmetic_exp plus_op arithmetic_exp1 {$$=$1+$3;}
-              | arithmetic_exp minus_op arithmetic_exp1 {$$=$1-$3;}
-              | arithmetic_exp1 { $$=$1; }
+
+arithmetic_exp: arithmetic_exp plus_op arithmetic_exp1 { $$ = $1 + $3; }
+              | arithmetic_exp minus_op arithmetic_exp1 { $$ = $1 - $3; }
+              | arithmetic_exp1 { $$ = $1; }
 ;
 
-arithmetic_exp1: arithmetic_exp1 multiplication_op arithmetic_exp2 {$$=$1*$3;}
+
+
+
+arithmetic_exp1: arithmetic_exp1 multiplication_op arithmetic_exp2 { $$ = $1 * $3; }
                | arithmetic_exp1 devision_op arithmetic_exp2 {
                    if ($3 == 0) {
-                       printf("erreur ligne : %d : division par zero\n", line_number);
-                       YYABORT;  /* Stop parsing */
+                       printf("Erreur ligne : %d : division par zéro\n", line_number);
+                       //YYABORT;  // Stop parsing
+                   } else {
+                       $$ = $1 / $3;
                    }
-				   else {
-						$$ = $1 / $3;
-				   }
                }
                | arithmetic_exp2 { $$ = $1; }
-; 
+;
+
+
 
 
 arithmetic_exp2: idf {
-						char* value = getValByIdf($1);
-						if (value) {
-							$$ = atof(value);  // Convert the string value to a float 
-						} else {
-							printf("Error: Undefined identifier '%s' at line %d\n", $1, line_number);
-							YYABORT;
-						}
-					 }
-               | cst { $$ = $1; }
-               | left_paranthesis arithmetic_exp right_paranthesis {$$ = $2;}
+                    char* value = getValByIdf($1);
+                    if (value == NULL || strcmp(value, "Null") == 0) {
+                        printf("Erreur : L'identifiant '%s' non initialisé à la ligne %d\n", $1, line_number);
+                        //YYABORT;
+                    } else {
+                        $$ = atof(value);  // Convert string value to float
+                    }
+                }
+               | cst { $$ = $1; }  // Constant (integer or float)
+               | left_paranthesis arithmetic_exp right_paranthesis { $$ = $2; }
+;
+
+
+assignment_logic: idf assignment_op logic_exp semicolon {
+    char* value = integerToString($3);
+    assignValueToVar($1, value);    // Assign value to variable in the symbol table
+    free(value);
+}
 ;
 
 logic_exp: comparison_exp { $$ = $1}
